@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigação Sustentável - Agrinho 2026</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+    <header class="barra-acessibilidade">
+        <button onclick="mudarContraste()" aria-label="Ativar modo alto contraste">Alto Contraste</button>
+        <button onclick="aumentarFonte()" aria-label="Aumentar tamanho do texto">Aumentar Texto</button>
+        <button onclick="resetarFonte()" aria-label="Resetar tamanho do texto">Texto Normal</button>
+    </header>
+
+    <main class="conteudo">
+        <h1>Cultivo Sustentável: Economize Água</h1>
+        <p>Descubra quantos litros de água você pode economizar mudando a irrigação tradicional da sua horta para o sistema de gotejamento sustentável.</p>
+
+        <section class="formulario">
+            <label for="tamanhoHorta">Tamanho da sua área de plantio (em metros quadrados):</label>
+            <input type="number" id="tamanhoHorta" placeholder="Ex: 50">
+            
+            <button onclick="calcularEconomia()">Calcular Economia</button>
+        </section>
+
+        <section id="resultado" class="resultado-caixa" aria-live="polite">
+            </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f9f4;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    font-size: 18px; /* Tamanho base bom para leitura */
+}
+
+.barra-acessibilidade {
+    background-color: #2e7d32;
+    padding: 10px;
+    text-align: right;
+}
+
+.barra-acessibilidade button {
+    background-color: white;
+    color: #2e7d32;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.conteudo {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #1b5e20;
+}
+
+.formulario input, .formulario button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.formulario button {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.resultado-caixa {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border-left: 5px solid #2e7d32;
+    display: none; /* Escondido até calcular */
+}
+
+/* Classe de Alto Contraste que o JS vai aplicar */
+.alto-contraste {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.alto-contraste .conteudo {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff;
+}
+.alto-contraste h1 {
+    color: #00ff00 !important;
+}
+
+
+// Variável para controlar o tamanho do texto
+let tamanhoAtualFonte = 18;
+
+// Função para calcular a economia de água
+function calcularEconomia() {
+    // Pega o valor digitado pelo usuário
+    let metrosQuadrados = document.getElementById("tamanhoHorta").value;
+    let caixaResultado = document.getElementById("resultado");
+
+    // Validação simples: se o usuário não digitar nada ou número negativo
+    if (metrosQuadrados <= 0 || metrosQuadrados === "") {
+        caixaResultado.style.display = "block";
+        caixaResultado.innerHTML = "<strong>Por favor, digite um tamanho de área válido!</strong>";
+        return;
+    }
+
+    // Conta matemática simples baseada em dados fictícios de economia rural
+    // Exemplo: O gotejamento economiza em média 30 litros de água por metro quadrado por dia
+    let aguaEconomizadaPorDia = metrosQuadrados * 30;
+    let aguaEconomizadaPorMes = aguaEconomizadaPorDia * 30;
+
+    // Faz a caixa de resultado aparecer e insere o texto nela
+    caixaResultado.style.display = "block";
+    caixaResultado.innerHTML = `
+        <h3>Impacto Ecológico Estimado:</h3>
+        <p>Ao mudar para o gotejamento sustentável, você deixará de desperdiçar:</p>
+        <p>💧 <strong>${aguaEconomizadaPorDia} litros</strong> de água por dia.</p>
+        <p>🚜 <strong>${aguaEconomizadaPorMes} litros</strong> de água por mês!</p>
+        <p><em>Isso garante uma produção forte sem esgotar o nosso meio ambiente.</em></p>
+    `;
+}
+
+// FUNÇÕES DE ACESSIBILIDADE
+
+// 1. Alternar Alto Contraste (muda as cores da tela)
+function mudarContraste() {
+    // Adiciona ou remove a classe 'alto-contraste' no body
+    document.body.classList.toggle("alto-contraste");
+}
+
+// 2. Aumentar o tamanho da letra
+function aumentarFonte() {
+    if (tamanhoAtualFonte < 30) { // Limite máximo para não quebrar o layout
+        tamanhoAtualFonte = tamanhoAtualFonte + 2;
+        document.body.style.fontSize = tamanhoAtualFonte + "px";
+    }
+}
+
+// 3. Voltar a letra ao tamanho normal
+function resetarFonte() {
+    tamanhoAtualFonte = 18;
+    document.body.style.fontSize = tamanhoAtualFonte + "px";
+}
